@@ -1,5 +1,6 @@
 package com.lopezjustin.pdfcli;
 
+import com.lopezjustin.pdfcli.command.MergeCommand;
 import picocli.CommandLine.Model.CommandSpec;
 
 import static picocli.CommandLine.*;
@@ -9,6 +10,10 @@ import static picocli.CommandLine.*;
         description = "A command-line application for PDF manipulation.",
         version = "pdfcli 1.0",
         mixinStandardHelpOptions = true,
+
+        subcommands = {
+                MergeCommand.class
+        },
 
         footer = "%nEjemplos:%n" +
                 "  pdfcli merge a.pdf b.pdf -o resultado.pdf%n" +
