@@ -16,8 +16,8 @@
 - [Funcionalidades](#funcionalidades)
 - [Requisitos](#requisitos)
 - [Instalación](#instalación)
-    - [Linux / macOS](#linux--macos)
-    - [Windows](#windows)
+  - [Linux / macOS](#linux--macos)
+  - [Windows](#windows)
 - [Uso y ejemplos](#uso-y-ejemplos)
     - [Comando merge](#comando-merge)
 - [Roadmap](#roadmap)
@@ -46,13 +46,13 @@ Diseñada con una arquitectura modular y escalable que permite agregar nuevas fu
 
 ## Requisitos
 
+- **[Git](https://git-scm.com/)** para clonar el repositorio
 - **[Java](https://openjdk.org/)** 17 o superior instalado y en el PATH
 
-Verifica tu instalación:
+Verifica tu instalación de Java:
 
 ```bash
 java -version
-mvn -version
 ```
 
 ---
@@ -61,43 +61,32 @@ mvn -version
 
 ### Linux / macOS
 
-**1. Clona el repositorio y compila:**
+**1. Clona el repositorio:**
 
 ```bash
 git clone https://github.com/lopezjustin/pdfcli.git
+```
+```bash
 cd pdfcli
-mvn package -q
 ```
 
-**2. Copia el JAR a una ubicación permanente:**
+**2. Da permisos de ejecución al instalador y ejecútalo:**
 
 ```bash
-mkdir -p ~/.local/bin
-cp target/pdfcli.jar ~/.local/bin/pdfcli.jar
+chmod +x install.sh
+````
+```bash
+./install.sh
 ```
 
-**3. Crea el script wrapper:**
+**3. Recarga tu terminal:**
 
 ```bash
-cat > ~/.local/bin/pdfcli << 'EOF'
-#!/bin/bash
-exec java -jar "$HOME/.local/bin/pdfcli.jar" "$@"
-EOF
- 
-chmod +x ~/.local/bin/pdfcli
+source ~/.bashrc   # Si usas bash
+source ~/.zshrc    # Si usas zsh
 ```
 
-**4. Agrega `~/.local/bin` al PATH** (si no está ya):
-
-```bash
-# Para bash
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.bashrc && source ~/.bashrc
- 
-# Para zsh (macOS)
-echo 'export PATH="$HOME/.local/bin:$PATH"' >> ~/.zshrc && source ~/.zshrc
-```
-
-**5. Verifica la instalación:**
+**4. Verifica la instalación:**
 
 ```bash
 pdfcli --version
@@ -107,37 +96,22 @@ pdfcli --version
 
 ### Windows
 
-**1. Clona el repositorio y compila:**
+**1. Clona el repositorio:**
 
-```powershell
-git clone https://github.com/tuusuario/pdfcli.git
+```bash
+git clone https://github.com/lopezjustin/pdfcli.git
+```
+```bash
 cd pdfcli
-mvn package -q
 ```
 
-**2. Copia el JAR:**
+**2. Ejecuta el instalador en PowerShell:**
 
 ```powershell
-New-Item -ItemType Directory -Force -Path "$env:USERPROFILE\.local\bin"
-Copy-Item "target\pdfcli.jar" "$env:USERPROFILE\.local\bin\pdfcli.jar"
+install.bat
 ```
 
-**3. Crea el script wrapper** `pdfcli.bat` en `%USERPROFILE%\.local\bin\`:
-
-```batch
-@echo off
-java -jar "%USERPROFILE%\.local\bin\pdfcli.jar" %*
-```
-
-**4. Agrega al PATH:**
-
-1. Abre **Inicio** → busca **"Variables de entorno"**
-2. Clic en **"Editar las variables de entorno del sistema"**
-3. En **Variables de usuario** → selecciona `Path` → **Editar**
-4. **Nuevo** → escribe `%USERPROFILE%\.local\bin`
-5. Aceptar y reabrir la terminal
-
-**5. Verifica la instalación:**
+**3. Abre una nueva terminal y verifica:**
 
 ```powershell
 pdfcli --version
