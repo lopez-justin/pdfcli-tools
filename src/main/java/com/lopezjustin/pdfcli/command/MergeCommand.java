@@ -12,11 +12,11 @@ import static picocli.CommandLine.*;
 
 @Command(
         name = "merge",
-        description = "Une múltiples archivos PDF en uno solo",
+        description = "%nUne múltiples archivos PDF en uno solo%n",
         mixinStandardHelpOptions = true,
         footer = "%nEjemplos:%n" +
                 "  pdfcli merge archivo1.pdf archivo2.pdf -o resultado.pdf%n" +
-                "  pdfcli merge doc1.pdf doc2.pdf doc3.pdf -o combinado.pdf%n"
+                "  pdfcli merge path/doc1.pdf path/doc2.pdf path/doc3.pdf -o path/combinado.pdf%n"
 )
 public class MergeCommand implements Runnable {
 

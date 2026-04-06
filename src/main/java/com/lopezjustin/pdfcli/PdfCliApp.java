@@ -11,18 +11,14 @@ import static picocli.CommandLine.*;
         version = "pdfcli 1.0",
         mixinStandardHelpOptions = true,
 
-        subcommands = {
-                MergeCommand.class
-        },
-
-        footer = "%nEjemplos:%n" +
-                "  pdfcli merge a.pdf b.pdf -o resultado.pdf%n" +
-                "  pdfcli merge *.pdf -o combinado.pdf%n",
-
         synopsisHeading = "%nUso: ",
         descriptionHeading = "%nDescripción:%n  ",
         optionListHeading = "%nOpciones:%n",
-        commandListHeading = "%nComandos disponibles:%n"
+        commandListHeading = "%nComandos disponibles:%n",
+
+        subcommands = {
+                MergeCommand.class
+        }
 )
 public class PdfCliApp implements Runnable {
 

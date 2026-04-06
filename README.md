@@ -46,8 +46,7 @@ Diseñada con una arquitectura modular y escalable que permite agregar nuevas fu
 
 ## Requisitos
 
-- **[Java](https://openjdk.org/)** o superior instalado y en el PATH
-- **[Apache Maven](https://maven.apache.org/) 3.6+** (solo para compilar desde el código fuente)
+- **[Java](https://openjdk.org/)** 17 o superior instalado y en el PATH
 
 Verifica tu instalación:
 
