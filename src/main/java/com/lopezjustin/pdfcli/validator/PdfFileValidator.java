@@ -31,16 +31,16 @@ public class PdfFileValidator {
             throw new PdfProcessingException("Se necesitan al menos 2 archivos PDF para realizar el merge.");
 
         for (File file : files) {
-            validateSingleFile(file);
+            validateInputFile(file);
         }
     }
 
     /**
-     * Valida un único archivo PDF, verificando su existencia, tipo, permisos y firma.
+     * Valida un único archivo PDF de entrada, verificando su existencia, tipo, permisos y firma.
      * @param file
      * @throws PdfProcessingException
      */
-    private void validateSingleFile(File file) throws PdfProcessingException {
+    public void validateInputFile(File file) throws PdfProcessingException {
         if (!file.exists())
             throw new PdfProcessingException("Archivo no encontrado: " + file.getAbsolutePath());
 
@@ -71,6 +71,17 @@ public class PdfFileValidator {
         // Si ya existe un archivo con ese nombre, advertimos
         if (outputFile.exists() && !outputFile.canWrite())
             throw new PdfProcessingException("Sin permiso de escritura sobre el archivo: " + outputFile.getAbsolutePath());
+    }
+
+    /**
+     * Valida el directorio de salida de un split.
+     * No lo crea: si no existe, el servicio debe crearlo con mkdirs().
+     * @param outputDir
+     * @throws PdfProcessingException
+     */
+    public void validateOutputDirectory(File outputDir) throws PdfProcessingException {
+        if (outputDir.exists() && !outputDir.isDirectory())
+            throw new PdfProcessingException("La ruta de salida no es un directorio: " + outputDir.getAbsolutePath());
     }
 
     /**

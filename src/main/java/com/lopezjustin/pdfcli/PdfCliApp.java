@@ -1,6 +1,7 @@
 package com.lopezjustin.pdfcli;
 
 import com.lopezjustin.pdfcli.command.MergeCommand;
+import com.lopezjustin.pdfcli.command.SplitCommand;
 import picocli.CommandLine.Model.CommandSpec;
 
 import static picocli.CommandLine.*;
@@ -17,7 +18,8 @@ import static picocli.CommandLine.*;
         commandListHeading = "%nComandos disponibles:%n",
 
         subcommands = {
-                MergeCommand.class
+                MergeCommand.class,
+                SplitCommand.class
         }
 )
 public class PdfCliApp implements Runnable {
