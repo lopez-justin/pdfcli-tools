@@ -1,7 +1,7 @@
 # PDFCLI
 
 > Herramienta de línea de comandos (CLI) desarrollada en Java para la manipulación de archivos PDF. 
-> Actualmente implementa la funcionalidad de unión de múltiples PDFs (merge) en un solo archivo.
+> Actualmente implementa la funcionalidad de unión de múltiples PDFs (merge) y división de PDFs (split).
 
 ![Java](https://img.shields.io/badge/Java-17-orange?style=flat-square&logo=openjdk)
 ![Maven](https://img.shields.io/badge/Maven-3.6+-blue?style=flat-square&logo=apachemaven)
@@ -20,6 +20,7 @@
   - [Windows](#windows)
 - [Uso y ejemplos](#uso-y-ejemplos)
     - [Comando merge](#comando-merge)
+    - [Comando split](#comando-split)
 - [Roadmap](#roadmap)
 - [Tecnologías](#tecnologías)
 
@@ -38,7 +39,7 @@ Diseñada con una arquitectura modular y escalable que permite agregar nuevas fu
 | Comando    | Descripción                        | Estado          |
 |------------|------------------------------------|-----------------|
 | `merge`    | Une múltiples PDFs en uno solo     | ✅ Disponible    |
-| `split`    | Divide un PDF por páginas o rangos | 🔜 Próximamente |
+| `split`    | Divide un PDF por páginas o rangos | ✅ Disponible    |
 | `compress` | Reduce el tamaño de un PDF         | 🔜 Próximamente |
 | `convert`  | Convierte imágenes a PDF           | 🔜 Próximamente | 
 
@@ -136,12 +137,29 @@ pdfcli merge ~/docs/a.pdf ~/docs/b.pdf -o ~/Desktop/resultado.pdf
 pdfcli merge --help
 ``` 
 
+### Comando split
+
+```bash
+# Extraer rangos de páginas a un solo PDF (sintaxis: N, A-B o N-)
+pdfcli split libro.pdf -r 1-5,8,10- -o capitulo1.pdf
+
+# Extraer páginas puntuales preservando el orden dado
+pdfcli split libro.pdf -r 4,1 -o seleccion.pdf
+
+# Dividir todas las páginas en archivos individuales (uno por página)
+pdfcli split libro.pdf -d salida/
+#  → salida/libro_p001.pdf, salida/libro_p002.pdf, ...
+
+# Ver ayuda del subcomando
+pdfcli split --help
+```
+
 ---
 
 ## Roadmap
 
 - [x] MVP — Comando `merge`
-- [ ] Comando `split` — dividir PDF por páginas o rangos
+- [x] Comando `split` — dividir PDF por páginas o rangos
 - [ ] Comando `compress` — reducir tamaño de archivo
 - [ ] Comando `convert` — imágenes a PDF y viceversa
 - [ ] Comando `rotate` — rotar páginas
