@@ -1,7 +1,7 @@
 # PDFCLI
 
 > Herramienta de línea de comandos (CLI) desarrollada en Java para la manipulación de archivos PDF. 
-> Actualmente implementa la funcionalidad de unión de múltiples PDFs (merge) y división de PDFs (split).
+> Actualmente implementa unión (merge), división (split) y compresión (compress) de PDFs.
 
 ![Java](https://img.shields.io/badge/Java-17-orange?style=flat-square&logo=openjdk)
 ![Maven](https://img.shields.io/badge/Maven-3.6+-blue?style=flat-square&logo=apachemaven)
@@ -21,6 +21,7 @@
 - [Uso y ejemplos](#uso-y-ejemplos)
     - [Comando merge](#comando-merge)
     - [Comando split](#comando-split)
+    - [Comando compress](#comando-compress)
 - [Roadmap](#roadmap)
 - [Tecnologías](#tecnologías)
 
@@ -40,7 +41,7 @@ Diseñada con una arquitectura modular y escalable que permite agregar nuevas fu
 |------------|------------------------------------|-----------------|
 | `merge`    | Une múltiples PDFs en uno solo     | ✅ Disponible    |
 | `split`    | Divide un PDF por páginas o rangos | ✅ Disponible    |
-| `compress` | Reduce el tamaño de un PDF         | 🔜 Próximamente |
+| `compress` | Reduce el tamaño de un PDF         | ✅ Disponible    |
 | `convert`  | Convierte imágenes a PDF           | 🔜 Próximamente | 
 
 ---
@@ -154,13 +155,29 @@ pdfcli split libro.pdf -d salida/
 pdfcli split --help
 ```
 
+### Comando compress
+
+```bash
+# Compresión básica: elimina metadatos y optimiza la estructura
+pdfcli compress escaneo.pdf -o escaneo_ligero.pdf
+
+# Conservar los metadatos del documento
+pdfcli compress informe.pdf -o informe_out.pdf --keep-metadata
+
+# Ver ayuda del subcomando
+pdfcli compress --help
+```
+
+> **Nota:** en PDFs que ya vienen bien comprimidos (p. ej. generados por Word o LaTeX) la reducción
+> puede ser mínima o el archivo puede crecer unos KB; el comando reporta el tamaño antes y después.
+
 ---
 
 ## Roadmap
 
 - [x] MVP — Comando `merge`
 - [x] Comando `split` — dividir PDF por páginas o rangos
-- [ ] Comando `compress` — reducir tamaño de archivo
+- [x] Comando `compress` — reducir tamaño de archivo
 - [ ] Comando `convert` — imágenes a PDF y viceversa
 - [ ] Comando `rotate` — rotar páginas
 - [ ] Distribución como binario nativo con GraalVM
