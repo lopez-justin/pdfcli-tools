@@ -67,7 +67,7 @@ java -version
 **1. Clona el repositorio:**
 
 ```bash
-git clone https://github.com/lopezjustin/pdfcli.git
+git clone https://github.com/lopez-justin/pdfcli-tools.git
 ```
 ```bash
 cd pdfcli
@@ -102,7 +102,7 @@ pdfcli --version
 **1. Clona el repositorio:**
 
 ```bash
-git clone https://github.com/lopezjustin/pdfcli.git
+git clone https://github.com/lopez-justin/pdfcli-tools.git
 ```
 ```bash
 cd pdfcli
