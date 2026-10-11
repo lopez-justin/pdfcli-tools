@@ -9,13 +9,19 @@ import java.io.RandomAccessFile;
 import java.util.List;
 
 /**
- * Validaciones reutilizables para archivos PDF
+ * Validaciones reutilizables para archivos de entrada y salida
  */
 public class PdfFileValidator {
 
     // Firma de un archivo pdf válido.
     // PDF bien formado empieza con estos bytes: "%PDF"
     private static final byte[] PDF_MAGIC_BYTES = {0x25, 0x50, 0x44, 0x46}; //%PDF
+
+    // Firmas de imágenes soportadas por convert
+    private static final byte[] PNG_MAGIC_BYTES = {(byte) 0x89, 0x50, 0x4E, 0x47}; // .PNG
+    private static final byte[] JPEG_MAGIC_BYTES = {(byte) 0xFF, (byte) 0xD8, (byte) 0xFF}; // ÿØÿ
+    private static final byte[] BMP_MAGIC_BYTES = {0x42, 0x4D};        // BM
+    private static final byte[] GIF_MAGIC_BYTES = {0x47, 0x49, 0x46, 0x38}; // GIF8
 
     /**
      * Valida una lista completa de archivos de entrada.
@@ -41,6 +47,24 @@ public class PdfFileValidator {
      * @throws PdfProcessingException
      */
     public void validateInputFile(File file) throws PdfProcessingException {
+        validateReadableFile(file);
+        validatePdfSignature(file);
+    }
+
+    /**
+     * Valida un único archivo de imagen de entrada (PNG, JPEG, BMP o GIF).
+     * @param file
+     * @throws PdfProcessingException
+     */
+    public void validateImageFile(File file) throws PdfProcessingException {
+        validateReadableFile(file);
+        validateImageSignature(file);
+    }
+
+    /**
+     * Verificaciones comunes: existencia, tipo, permisos y tamaño.
+     */
+    private void validateReadableFile(File file) throws PdfProcessingException {
         if (!file.exists())
             throw new PdfProcessingException("Archivo no encontrado: " + file.getAbsolutePath());
 
@@ -52,8 +76,6 @@ public class PdfFileValidator {
 
         if (file.length() == 0)
             throw new PdfProcessingException("El archivo está vacío:" + file.getName());
-
-        validatePdfSignature(file);
     }
 
     /**
@@ -106,6 +128,44 @@ public class PdfFileValidator {
             throw new PdfProcessingException("Error al leer el archivo: " + file.getName(), e);
         }
 
+    }
+
+    /**
+     * Lee los primeros bytes del archivo y comprueba que coincidan con una firma de imagen soportada.
+     * @param file
+     * @throws PdfProcessingException
+     */
+    private void validateImageSignature(File file) throws PdfProcessingException {
+        try (RandomAccessFile raf = new RandomAccessFile(file, "r")) {
+            byte[] header = new byte[4];
+            int bytesRead = raf.read(header);
+
+            if (bytesRead < 2)
+                throw new PdfProcessingException("El archivo es demasiado pequeño para ser una imagen válida: " + file.getName());
+
+            if (startsWith(header, PNG_MAGIC_BYTES)
+                    || startsWith(header, JPEG_MAGIC_BYTES)
+                    || startsWith(header, BMP_MAGIC_BYTES)
+                    || startsWith(header, GIF_MAGIC_BYTES))
+                return;
+
+            throw new PdfProcessingException(
+                    "El archivo no es una imagen soportada (PNG, JPEG, BMP o GIF): " + file.getName());
+        } catch (IOException e) {
+            throw new PdfProcessingException("Error al leer el archivo: " + file.getName(), e);
+        }
+    }
+
+    private static boolean startsWith(byte[] header, byte[] magic) {
+        if (header.length < magic.length)
+            return false;
+
+        for (int i = 0; i < magic.length; i++) {
+            if (header[i] != magic[i])
+                return false;
+        }
+
+        return true;
     }
 
 }
