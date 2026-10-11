@@ -1,7 +1,7 @@
 # PDFCLI
 
 > Herramienta de línea de comandos (CLI) desarrollada en Java para la manipulación de archivos PDF. 
-> Actualmente implementa unión (merge), división (split) y compresión (compress) de PDFs.
+> Actualmente implementa unión (merge), división (split), compresión (compress) y conversión de imágenes a PDF (convert).
 
 ![Java](https://img.shields.io/badge/Java-17-orange?style=flat-square&logo=openjdk)
 ![Maven](https://img.shields.io/badge/Maven-3.6+-blue?style=flat-square&logo=apachemaven)
@@ -22,6 +22,7 @@
     - [Comando merge](#comando-merge)
     - [Comando split](#comando-split)
     - [Comando compress](#comando-compress)
+    - [Comando convert](#comando-convert)
 - [Roadmap](#roadmap)
 - [Tecnologías](#tecnologías)
 
@@ -42,7 +43,7 @@ Diseñada con una arquitectura modular y escalable que permite agregar nuevas fu
 | `merge`    | Une múltiples PDFs en uno solo     | ✅ Disponible    |
 | `split`    | Divide un PDF por páginas o rangos | ✅ Disponible    |
 | `compress` | Reduce el tamaño de un PDF         | ✅ Disponible    |
-| `convert`  | Convierte imágenes a PDF           | 🔜 Próximamente | 
+| `convert`  | Convierte imágenes a PDF           | ✅ Disponible    | 
 
 ---
 
@@ -171,6 +172,25 @@ pdfcli compress --help
 > **Nota:** en PDFs que ya vienen bien comprimidos (p. ej. generados por Word o LaTeX) la reducción
 > puede ser mínima o el archivo puede crecer unos KB; el comando reporta el tamaño antes y después.
 
+### Comando convert
+
+```bash
+# Convertir una imagen a PDF (página A4)
+pdfcli convert foto.png -o foto.pdf
+
+# Varias imágenes: una página A4 por imagen, en el orden dado
+pdfcli convert portada.jpg contenido.png anexo.bmp -o documento.pdf
+
+# Escaneos apaisados usan página A4 horizontal automáticamente
+pdfcli convert panorama.png -o panorama.pdf
+
+# Ver ayuda del subcomando
+pdfcli convert --help
+```
+
+> **Nota:** formatos soportados: PNG, JPEG, BMP y GIF. Los JPEG se incrustan sin recodificar
+> (cero pérdida adicional). Las imágenes grandes se escalan para caber en A4 sin ampliarse.
+
 ---
 
 ## Roadmap
@@ -178,8 +198,7 @@ pdfcli compress --help
 - [x] MVP — Comando `merge`
 - [x] Comando `split` — dividir PDF por páginas o rangos
 - [x] Comando `compress` — reducir tamaño de archivo
-- [ ] Comando `convert` — imágenes a PDF y viceversa
-- [ ] Comando `rotate` — rotar páginas
+- [x] Comando `convert` — imágenes a PDF (PNG, JPEG, BMP, GIF)
 - [ ] Distribución como binario nativo con GraalVM
 
 ---
